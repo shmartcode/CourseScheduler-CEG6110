@@ -1,0 +1,82 @@
+Code,name,credits,Prereq's,coreq's,availability
+AFS2000,What is the African and African American Experience?,3,,,availability
+ASM1717,Humans and Machines at Extremes,4,,,availability
+CEG2170,Introduction to C Programming for Scientists and Engineers,4,,CEG2170L,availability
+CEG2170L,Introduction to C Programming for Scientists and Engineers Lab,0,,CEG2170,availability
+CEG2171,C++ Programming for Scientists and Engineers,4,CEG2170,CEG2171L,availability
+CEG2171L,C++ Programming for Scientists and Engineers Lab,0,,CEG2171,availability
+CEG2350,Operating System Concepts and Usage,4,CS1180,CEG2350L,availability
+CEG2350L,Operating System Concepts and Usage Lab,0,,CEG2350,availability
+CEG2400,Introduction to PC Networking,3,CS1180,,availability
+CEG2410,System Administration,3,CEG2400 and CEG2350,,availability
+CEG3110,Introduction to Software Testing,3,CS1180,,availability
+CEG3120,Introduction to the Design of Information Technology Systems,3,CEG2350,,availability
+CEG3310,Computer Organization,4,CS1181,CEG3310L,availability
+CEG3310L,Computer Organization Lab,0,,CEG3310,availability
+CEG3320,Digital System Design,4,CS1180 and MTH2300,CEG3320L,availability
+CEG3320L,Digital System Design Lab,0,,CEG3320,availability
+CEG3400,Introduction to Cyber Security,3,CEG2350,,availability
+CEG3410,Introduction to Digital Forensics,3,CS1180 and CEG2400,,availability
+CEG3500,Introduction to Augmented & Virtual Reality,3,CS1181,,availability
+CEG4110,Introduction to Software Engineering,3,CS3100,,availability
+CEG4120,Managing the Software Development Process,3,CEG4110,,availability
+CEG4130,Personal Software Development Process,3,CEG4110,,availability
+CEG4180,Object-Oriented Programming and Design,3,CEG4110,,availability
+CEG4230,Introduction to Robotics,3,MTH2350,CEG4230L,availability
+CEG4230L,Introduction to Robotics Lab,0,,CEG4230,availability
+CEG4260,Matrix Computations,3,MTH2530 and CS1180,,availability
+CEG4330,Microprocessor-Based Embedded Systems,4,CEG3320 and CEG2170,CEG4330L,availability
+CEG4330L,Microprocessor-Based Embedded Systems Lab,0,,CEG4330,availability
+CEG4350,Operating System Internals and Design,3,CS3100 and CEG2350,,availability
+CEG4500, Computer Graphics,3,CS3100 and MTH2530,,availability
+CEG4980,Team Projects I,3,CS3100 and EGR3350,,availability
+CEG4981,Team Projects II,3,CEG4980,,availability
+CS1000,Technology and Society,3,,,availability
+CS1180,Computer Science I,4,MTH2300,CS1180L,SpringFall
+CS1180L,Computer Science I Lab,0,,CS1180,SpringFall
+CS1181,Computer Science II,4,CS1180,CS1181L,SpringFall
+CS1181L,Computer Science II Lab,0,,CS1181,SpringFall
+CS2200,Discrete Structures and Their Algorithms,4,,CS2200R,availability
+CS2200R,Discrete Structures and Their Algorithms Recitation,0,,CS2200,availability
+CS2800,Web Development I,3,CS1180,,SpringFall
+CS3100,Data Structures and Algorithms,3,CEG3310 and CS2200,,availability
+CS3160,Game Programming,3,CS1180,,availability
+CS3170,Mobile Application Development,3,CEG2350,,availability
+CS3700,Introduction to Databases & Modeling,3,CS1180,,availability
+CS3800,Web Development II,3,CS2800,,availability
+CS3840,Applied Machine Learning,3,CS1180 and CS2200,,availability
+CS4200,Introduction to Quantum Computing,3,CS3100 and MTH2530,,availability
+CS4700,Database Management Systems,3,CS3100,,availability
+CS4710,Introdcution to Data Mining,3,CS3100,,availability
+EE2010,Analog Circuit Theory,3,MTH2300,EE2010L,availability
+EE2010L,Analog Circuit Theory Lab,1,,EE2010,availability
+EE3210,Continuous Linear Systems,3,EE2010 and MTH2310,,availability
+EE3310,Electronic Devices and Circuits,3,EE2010,EE3310L,availability
+EE3310L,Electronic Devices and Circuits Lab,1,,EE3310,availability
+EGR1010,Introductory Mathematics for Engineering Applications,4,MTH2300,EGR1010L and EGR1010R,SpringFall
+EGR1010L,Introductory Mathematics for Engineering Applications Lab,0,,EGR1010 and EGR1010R,SpringFall
+EGR1010R,Introductory Mathematics for Engineering Applications Recitation,0,,EGR1010L and EGR1010,SpringFall
+EGR3350,Technical Communications for Engineers and Computer Scientists,3,ENG1100,,SpringFall 
+ENG1100,Academic Writing and Reading,3,,,availability
+HST1100,Western Civilizations to 1500,3,,,SpringFall
+MGT1900,Managerial Character and Competencies I,3,,,availability
+MTH2300,Calculus I,4,,,SpringFall
+MTH2310,Calculus II,4,MTH2300,,SpringFall
+MTH2320,Calculus III,4,MTH2310,,SpringFall
+MTH2350,Differential Equations with Matrix Algebra,4,MTH2310,,SpringFall
+MTH2530,Elementary Linear Algegra,3,MTH2300,,SpringFall
+MTH2570,Discrete Mathematics for Computing,4,,,SpringFall
+PHY2400,General Physics I,4,MTH2300,PHY2400L and PHY2400R,SpringFall
+PHY2400L,General Physics I Lab,1,,PHY2400 and PHY2400R,SpringFall
+PHY2400R,General Physics I Recitation,0,,PHY2400 and PHY2400L,SpringFall
+PHY2410,General Physics II,4,PHY2400 and MTH2310,PHY2410L and PHY2410R,SpringFall
+PHY2410L,General Physics II Lab,1,,PHY2410 and PHY2410R,SpringFall
+PHY2410R,General Physics II Recitation,0,,,SpringFall
+PHY2420,Introduction to Modern Physics,3,PHY2410 and MTH2310,,Spring
+PHY3150,Physics Instrumentation,3,PHY2410,,Fall
+PHY3500,Advanced Physics Laboratory,2,PHY2420 and PHY3150,,Fall
+PHY3510,Advanced Physics Laboratory II,2,PHY2420 and PHY3150,,Spring
+PHY3710,Analytical Mechanics,3,PHY2410 and MTH2350,,Spring
+STT1600,Statistical Concepts,4,,,availability
+STT3600,Introduction to Probability,3,MTH2310,,availability
+UVC1010,First Year Seminar,1,,,SpringFall

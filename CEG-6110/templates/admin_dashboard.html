@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="dashboard-main">
+        <h1>Welcome, {{ user.username }}!</h1>
+        <p>This is your admin dashboard.</p>
+        
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flashes">
+              {% for msg in messages %}
+                <li>{{ msg }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <h2>Create Account</h2>
+        <form action="{{ url_for('create_user') }}" method="post">
+            <div class="account-type-group">
+                <label for="account_type" class="account-type-label">Account Type</label>
+                <select name="account_type" id="account_type" class="account-type-select" required>
+                    <option value="student">Student</option>
+                    <option value="faculty">Faculty</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+			<div class="input-hint">Username must be exactly 8 lowercase letters.</div>
+            <div class="input-hint">Password must be at least 12 characters, with at least 1 uppercase, 1 lowercase, 1 number, and 1 symbol.</div>
+            <button type="submit">Create Account</button>
+        </form>
+
+        <form action="{{ url_for('logout') }}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</body>
+</html>

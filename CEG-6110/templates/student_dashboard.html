@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="dashboard-main">
+        <h1>Welcome, {{ user.username }}!</h1>
+        <p>This is your student dashboard.</p>
+		
+		{% with messages = get_flashed_messages() %}
+		  {% if messages %}
+		    <ul class="flashes">
+		      {% for msg in messages %}
+		        <li>{{ msg }}</li>
+		      {% endfor %}
+		        </ul>
+		      {% endif %}
+		{% endwith %}
+		
+
+		<h2>Create Schedule</h2>
+		<form action="{{ url_for('create_schedule') }}" method="post">
+		    <div class="create-schedule-group">
+		        <label for="major_1" class="create-schedule-label">Major 1 </label>
+		        <select name="major_1" id="create-schedule" class="create-schedule-select" required>
+		            <option value="CEG Major">Computer Engineering</option>
+		            <option value="CS Major">Computer Science</option>
+		        </select>
+		    </div>
+            <div class="create-schedule-group">
+                <label for="major_2" class="create-schedule-label">Major 2 (Optional)</label>
+                <select name="major_2" id="create-schedule" class="create-schedule-select">
+                    <option value="" selected>None</option>
+                    <option value="CEG Major">Computer Engineering</option>
+                    <option value="CS Major">Computer Science</option>
+                </select>
+			</div>
+			<div class="create-schedule-group">
+                <label for="minor_1" class="create-schedule-label">Minor 1 (Optional)</label>
+                <select name="minor_1" id="create-schedule" class="create-schedule-select">
+                    <option value="" selected>None</option>
+                    <option value="Math Minor">Mathematics</option>
+                    <option value="Physics Minor">Physics</option>
+                </select>
+            </div>
+			<div class="create-schedule-group">
+                <label for="minor_2" class="create-schedule-label">Minor 2 (Optional)</label>
+                <select name="minor_2" id="create-schedule" class="create-schedule-select">
+                    <option value="" selected>None</option>
+                    <option value="Math Minor">Mathematics</option>
+                    <option value="Physics Minor">Physics</option>
+                </select>
+			</div>
+			<input type="text" name="num_sem" placeholder="Number of semesters to graduate in" required>
+			<div class="input-hint">User must select at least one major, with optional 2nd major and minors</div>
+            <button type="submit">Create Schedule</button>
+		</form>
+		
+		<form action="{{ url_for('logout') }}" method="post">
+		    <button type="submit">Logout</button>
+		</form>
+    </div>
+</body>
+</html>

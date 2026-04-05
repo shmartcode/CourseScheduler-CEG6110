@@ -1,0 +1,238 @@
+import copy
+
+_users_db ={} # dictionary to store all user accounts. key is username, value is Student/Faculty/Admin object
+
+class Student:
+    def __init__(self, name, username, password):
+        self.type = "student"
+        self.name = name
+        self.username = username
+        self.password = password
+        self.majors = []    # set of strings
+        self.minors = []    # set of strings
+        self.schedule = []  # List of strings
+        self.proposed_schedule = [] # List of lists of strings. Proposed by algorithm and pending approval of student and faculty. 
+        self.advisor = None # Faculty object
+        self.sched_student_approved = False   # True if the student approved the proposed schedule
+        self.sched_faculty_approved = False   # set true if the faculty member approves the students proposed schedule
+        self.majors_minors_approved = False # set to true if the faculty advisor approves the students majors/minors. I imagine that this should be checked before a schedule is generated.
+        self.num_semesters = 0  # number of semesters the student would like to graduate in
+        self.new_num_semesters = 0 # variable to be used in case the scheduler needs to add a semester
+        self.courses_per_semester = 5 # number of courses to be scheduled per semester. default is 5 (which is 15 credits at 3 per course). max is 6 (which is 18 credits)
+
+    def __str__(self):
+        return f"{self.username}"
+
+    def add_major(self, major):
+        """ Allows a student to add a major."""
+        if len(self.majors) < 2 and major not in self.majors:   # if the student has less than 2 majors and the major to add is not already added
+            self.majors.append(major)
+            return True
+        else:
+            return "Major limit of 2 reached or major already added."
+
+    def add_minor(self, minor): # if the student has less than 2 minors and the minor to add is not already added
+        """ Allows a student to add a minor."""
+        if len(self.minors) < 2 and minor not in self.minors:
+            self.minors.append(minor)
+            return True
+        else:
+            return "Minor limit of 2 reached or minor already added."
+
+    def approve_proposed_schedule(self):
+        """Allows a student to approve or deny the schedule propsed by the scheduling algorithm."""
+        if not self.proposed_schedule:  # if a proposed schedule exists
+            return "You have no proposed schedule to approve."
+        else:
+            self.sched_student_approved = True
+            self.schedule = copy.deepcopy(self.proposed_schedule)
+            return True
+    
+    def clear_schedule(self):
+        """Clears any variables related to generating a schedule so that subsequent schedules are not affected by previous schedules."""
+        self.majors = []    # set of strings
+        self.minors = []    # set of strings
+        self.schedule = []  # List of strings
+        self.proposed_schedule = [] # List of lists of strings. Proposed by algorithm and pending approval of student and faculty. 
+        self.sched_student_approved = False   # True if the student approved the proposed schedule
+        self.sched_faculty_approved = False   # set true if the faculty member approves the students proposed schedule
+        self.majors_minors_approved = False # set to true if the faculty advisor approves the students majors/minors. I imagine that this should be checked before a schedule is generated.
+        self.num_semesters = 0  # number of semesters the student would like to graduate in
+        self.new_num_semesters = 0 # variable to be used in case the scheduler needs to add a semester
+    
+    def update_num_semesters(self, num):
+        """Takes in the number of semesters the student would like to graduate in."""
+        self.num_semesters = num
+
+class Faculty:
+    def __init__(self, name, username, password):
+        self.type = "faculty"
+        self.name = name
+        self.username = username
+        self.password = password
+        self.advisees = set()    # Set of Student objects
+        self.email = None
+        self.office = None
+
+    def __str__(self):
+        return f"{self.username}"
+
+    def change_name(self, name):
+        self.name = name
+
+    def change_email(self,email):
+        self.email = email
+
+    def change_office(self, office):
+        self.office = office
+
+    def approve_majors_minors(self, student):
+        """Allows faculty to approve of the majors/minors a student has added."""
+        if student.majors:  # if the student has at least 1 major
+            student.majors_minors_approved = True
+            return True
+        else:
+            return "The student does not have at least 1 major to approve."
+        
+    def approve_proposed_schedule(self, student):
+        """Allows a faculty to approve one of their advisees propsed schedule (the schedule generated by the algorithm)."""
+        if not student in self.advisees and not student.proposed_schedule:  # if the faculty memeber does not advise the student and if the student has no propose schedule.
+            return "You have no proposed schedule to approve."
+        else:
+            student.sched_faculty_approved = True
+            return True
+
+class Admin:
+    def __init__(self, name, username, password):
+        self.type = "admin"
+        self.name = name
+        self.username = username
+        self.password = password
+
+    def __str__(self):
+        return f"{self.username}"
+
+    def assign_students(self, student, faculty):
+        """ Assigns the faculty member as the students advisor."""
+        if not student.advisor: # if the student has no advisor
+            student.advisor = faculty
+            faculty.advisees.add(student)
+            return True
+        else:
+            return f"Student: {student.name} already has Advisor: {student.advisor.name}"
+        
+    def remove_advisor(self, student):
+        """ Removes a students assigned faculty advisor and sets it to None."""
+        if student.advisor: # if the student has an advisor to remove
+            student.advisor = None
+            return True
+        else:
+            return f"Student: {student.name} has no advisor to remove."
+        
+    def create_student(self, name, username, password):
+        """ Creates a student account taking in name, username, and password as args."""
+        correct_criteria = check_criteria(username, password)
+        if correct_criteria != True:
+            return correct_criteria
+        s = Student(name, username, password)
+        if username in _users_db:
+            return f"Error: username {username} already exists."
+        else:
+            _users_db[username] = s
+            return True
+    
+    def create_faculty(self, name, username, password):
+        """Creates a faculty account taking in name, username, and password as args."""
+        correct_criteria = check_criteria(username, password)
+        if correct_criteria != True:
+            return correct_criteria
+        f = Faculty(name, username, password)
+        if username in _users_db:
+            return f"Error: username {username} already exists."
+        else:
+            _users_db[username] = f
+            return True
+        
+    def create_admin(self, name, username, password):
+        """Creates an admin account taking in name, username, and password as args."""
+        correct_criteria = check_criteria(username, password)
+        if correct_criteria != True:
+            return correct_criteria
+        a = Admin(name, username, password)
+        if username in _users_db:
+            return f"Error: username {username} already exists."
+        else:
+            _users_db[username] = a
+            return True
+
+def check_criteria(username, password):
+    """ Checks that username/password meet criteria. Usernames must be 8 characters exactly and all lowercase.
+    Passwords must be 12 characters exactly with 1 uppercase, 1 lowercase, 1 numeric, and 1 symbol/special char"""
+    if not username.islower() or not len(username) == 8:
+        return "Error: username does not meet criteria. Must be 8 characters and all lowercase."
+    if not len(password) == 12:
+        return "Error: password does not meet criteria. Must be 12 characters exactly long."
+
+    else:
+        # special = {"!","@","#","$","%","^","&","*","(",")","_","-","=","+"} 
+        special = {
+        '!', '@', '#', '$', '%', '^', '&', '*', 
+        '(', ')', '-', '_', '=', '+', '[', ']', 
+        '{', '}', '|', '\\', ':', ';', '"', "'", 
+        '<', '>', ',', '.', '?', '/' }      
+        # note! when handling backslash \ and a double quote " inside strings you need to add a \ in front of them. ie \\ and \"
+        upper, lower, num, symbol = False, False, False, False
+        for c in password:
+            if c.isupper(): upper = True
+            elif c.islower(): lower = True
+            elif c.isdigit(): num = True
+            elif c in special: symbol = True
+        if not (upper and lower and num and symbol):
+            return "Error: password does not meet criteria. It must have 1 uppercase, 1 lowercase, 1 numeric, and 1 symbol/special character."
+    
+    return True
+
+def authenticate(username, password):
+    """Takes in the username and password and returns the account type if authenticated. Returns None (with error message?) if username or password is incorrect."""
+    user = _users_db.get(username)  # gets the user account if the username is found. default return for not found is None
+    if user:
+        if password == user.password:
+            # return a string of the account type for front end page switching
+            if isinstance(user, Student):
+                return user
+            elif isinstance(user, Faculty):
+                return user
+            elif isinstance(user, Admin):
+                return user
+            else:
+                return "No such account type exists" # this should never happen
+        else:
+            return "Login failed. Incorrect password" # failures now return a string message that will be flashed to the user
+    else:
+        return "Login failed. Username not found"  # failures now return a string message that will be flashed to the user
+
+def initialize_accounts():
+    """Creates the systems first accounts for testing purposes."""
+    test_acct = {
+    "student1" : "Password123$",
+    "student2" : "Password234%",
+    "student3" : "Password345^",
+    "student4" : "Password456&",
+    "student5" : "Password567*",
+    "faculty1" : "Faculty1234%",
+    "faculty2" : "Faculty2345^",
+    "faculty2" : "Faculty3456&",
+    "adminadmin" : "Adminadmin123$"
+    }
+
+    # iterates through test_acct dictionary and creates the appropriate student/faculty/admin test accounts
+    for x,y in test_acct.items():
+        if x[0] == 's':
+            s = Student(x,x,y)
+            _users_db[x] = s
+        elif x[0] == 'f':
+            f = Faculty(x,x,y)
+            _users_db[x] = f
+        if x[0] == 'a':
+            a = Admin(x,x,y)
+            _users_db[x] = a

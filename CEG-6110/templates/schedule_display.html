@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Schedule Display</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="dashboard-main">
+        <h1>Welcome, {{ user.username }}!</h1>
+		
+		{% with messages = get_flashed_messages() %}
+		  {% if messages %}
+		    <ul class="flashes">
+		      {% for msg in messages %}
+		        <li>{{ msg }}</li>
+		      {% endfor %}
+		        </ul>
+		      {% endif %}
+		{% endwith %}
+		
+
+		<h2>Here is your {{approval_message}} schedule.</h2>
+
+        {# Normalize schedule: generate_schedule returns (success, messages, schedule) so pick index 2 when present. #}
+        {% set sched = schedule[2] %}
+        {% set sched_messages = schedule[1] %}
+		{% set sched_success = schedule[0] %}
+		
+		{% if not sched_success %}
+		    <div class="scheduler-error">
+		        <h3>Schedule could not be generated due to the following errors:</h3>
+		        <ul>
+		            {% for m in sched_messages %}
+		                <li>{{ m }}</li>
+		            {% endfor %}
+		        </ul>
+		    </div>
+		{% endif %}
+
+        {% if sched_messages and sched_success %}
+            <div class="scheduler-messages">
+                <h3>Scheduler messages</h3>
+                <ul>
+                    {% for m in sched_messages %}
+                        <li>{{ m }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+		{% set season = "Fall" %}
+        {% if sched and sched|length > 0 and sched_success %}
+            <table border="1">
+                <tr>
+                    <th>Semester</th>
+                    <th>Courses</th>
+					<th>Total Credits</th>
+					<th>Semester</th>
+					<th>Courses</th>
+					<th>Total Credits</th>
+                </tr>
+                {% for i in range(0, sched|length, 2) %}
+					{% set sem1 = sched[i] %}
+					{% if i + 1 < sched|length %}
+					    {% set sem2 = sched[i + 1] %}
+					{% else %}
+					    {% set sem2 = [] %}
+					{% endif %}
+                <tr>
+					{% set season = "Fall" %}
+                    <td>{{ season }} {{ loop.index }}</td>
+					{% set ns = namespace(total=0) %}
+                    <td>
+                        {% if sem1 and sem1|length > 0 %}
+                        	<ul>
+                            {% for course in sem1 %}
+								{% set ns.total = ns.total + course_catalog[course].credits %}
+                            	<li>{{ course }}</li>
+                            {% endfor %}
+                        	</ul>
+                        {% else %}
+                        	<em>Blank for uniformity</em>
+                        {% endif %}
+                    </td>
+					<td style = "text-align:center">{{ ns.total }}</td>
+					
+					{% set season = "Spring" %}
+                    <td>{{ season }} {{ loop.index }}</td>
+					{% set ns2 = namespace(total=0) %}
+					<td>
+                        {% if sem2 and sem2|length > 0 %}
+                        	<ul>
+                            {% for course in sem2 %}
+								{% set ns2.total = ns2.total + course_catalog[course].credits %}
+								<li>{{ course }}</li>
+                            {% endfor %}
+                        	</ul>
+                        {% else %}
+                        	<em>Blank for uniformity</em>
+                        {% endif %}
+                    </td>
+					<td style = "text-align:center">{{ ns2.total }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No schedule available. Make sure you created a schedule first.</p>
+        {% endif %}
+		
+		{# Only show reject button if schedule is still proposed #}
+		{% if approval_message == "proposed" %}
+			<form action="{{ url_for('approve_schedule') }}" method="post">
+		    	<button type="submit">Approve Schedule</button>
+			</form>
+		
+			<form action="{{ url_for('student_dashboard') }}" method="post">
+		    	<button type="submit">Reject Schedule</button>
+			</form>
+        {% endif %}
+		
+		<form action="{{ url_for('logout') }}" method="post">
+		    <button type="submit">Logout</button>
+		</form>
+    </div>
+</body>
+</html>
