@@ -8,7 +8,7 @@ The Course Scheduler is a group project for Wright States Intro to Software Engi
 
 ## Try the website!
 
-* You can try the program yourself by visiting "ceg-6110-2.onrender.com". Please be patient as Render's free web services "spin down after 15 minutes of inactivity, and waking them can take 30 seconds or more". This usually translates to a 2-5 minute loading time.
+* You can try the program yourself by visiting [Course Scheduler Website](ceg-6110-2.onrender.com/) hosted on Render. Please be patient as Render's free web services "spin down after 15 minutes of inactivity, and waking them can take 30 seconds or more". This usually translates to a 2-5 minute loading time.
 * The sample accounts to log in with are as follow:
 *   "student1" : "Password123$"
 *   "adminadmin" : "Adminadmin123$"
